@@ -5,141 +5,129 @@ export const newsSources: NewsSource[] = [
   {
     name: 'Reuters',
     url: 'https://www.reutersagency.com/feed/?taxonomy=best-topics&post_type=best',
+    category: 'general',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'general'
+    }
   },
   {
     name: 'BBC News',
     url: 'http://feeds.bbci.co.uk/news/world/rss.xml',
+    category: 'general',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'general'
+    }
+  },
+  
+  // Business News Sources
+  {
+    name: 'Financial Times',
+    url: 'https://www.ft.com/rss/home',
+    category: 'business',
+    selector: {
+      article: 'item',
+      title: 'title',
+      description: 'description',
+      link: 'link',
+      date: 'pubDate'
+    }
   },
   {
-    name: 'CNN',
-    url: 'http://rss.cnn.com/rss/edition.rss',
+    name: 'Bloomberg',
+    url: 'https://www.bloomberg.com/feed',
+    category: 'business',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'general'
+    }
   },
 
-  // Technology Sources
+  // Technology News Sources
   {
     name: 'TechCrunch',
     url: 'https://techcrunch.com/feed/',
+    category: 'technology',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'technology'
+    }
   },
   {
     name: 'The Verge',
     url: 'https://www.theverge.com/rss/index.xml',
-    selector: {
-      article: 'entry',
-      title: 'title',
-      description: 'content',
-      link: 'id',
-      date: 'published'
-    },
-    category: 'technology'
-  },
-
-  // Markets Sources
-  {
-    name: 'Yahoo Finance',
-    url: 'https://finance.yahoo.com/news/rssindex',
+    category: 'technology',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'markets'
-  },
-  {
-    name: 'MarketWatch',
-    url: 'http://feeds.marketwatch.com/marketwatch/topstories/',
-    selector: {
-      article: 'item',
-      title: 'title',
-      description: 'description',
-      link: 'link',
-      date: 'pubDate'
-    },
-    category: 'markets'
+    }
   },
 
-  // Sports Sources
+  // Sports News Sources
   {
     name: 'ESPN',
     url: 'https://www.espn.com/espn/rss/news',
+    category: 'sports',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'sports'
+    }
   },
   {
     name: 'BBC Sport',
-    url: 'http://feeds.bbci.co.uk/sport/rss.xml',
+    url: 'https://feeds.bbci.co.uk/sport/rss.xml',
+    category: 'sports',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'sports'
+    }
   },
 
-  // Entertainment Sources
+  // Entertainment News Sources
   {
     name: 'Variety',
     url: 'https://variety.com/feed/',
+    category: 'entertainment',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'entertainment'
+    }
   },
   {
-    name: 'Entertainment Weekly',
-    url: 'https://ew.com/feed/',
+    name: 'Hollywood Reporter',
+    url: 'https://www.hollywoodreporter.com/feed',
+    category: 'entertainment',
     selector: {
       article: 'item',
       title: 'title',
       description: 'description',
       link: 'link',
       date: 'pubDate'
-    },
-    category: 'entertainment'
+    }
   }
 ];

@@ -8,9 +8,12 @@ export interface NewsArticle {
   imageUrl?: string;
 }
 
+export type NewsCategory = 'general' | 'business' | 'technology' | 'sports' | 'entertainment';
+
 export interface NewsSource {
   name: string;
   url: string;
+  category: NewsCategory;
   selector: {
     article: string;
     title: string;

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const POLYGON_API_KEY = process.env.POLYGON_API_KEY;
 const BASE_URL = 'https://api.polygon.io/v2';
@@ -21,8 +21,8 @@ async function fetchWithRetry(url: string, retries = 3, delay = 1000): Promise<a
   try {
     const response = await axios.get(url);
     return response.data;
-  } catch (error: any) {
-    if (error.response?.status === 429 && retries > 0) {
+  } catch (error) {
+    if (error instanceof AxiosError && error.response?.status === 429 && retries > 0) {
       // Rate limit hit - wait with exponential backoff
       const waitTime = delay * Math.pow(2, 3 - retries);
       console.log(`Rate limit hit, waiting ${waitTime}ms before retry...`);
@@ -55,7 +55,13 @@ async function fetchTickerData(symbol: string) {
       changePercent
     };
   } catch (error) {
-    console.error(`Detailed error for ${symbol}:`, error.response?.data || error.message);
+    if (error instanceof AxiosError) {
+      console.error(`Detailed error for ${symbol}:`, error.response?.data || error.message);
+    } else if (error instanceof Error) {
+      console.error(`Error fetching data for ${symbol}:`, error.message);
+    } else {
+      console.error(`Unknown error for ${symbol}:`, error);
+    }
     throw error;
   }
 }
@@ -82,7 +88,7 @@ export async function GET() {
         // Add a delay between requests
         await new Promise(resolve => setTimeout(resolve, 300));
       } catch (error) {
-        console.error(`Error fetching data for ${index.symbol}:`, error);
+        console.error(`Error fetching data for ${index.symbol}:`, error instanceof Error ? error.message : String(error));
         // Fallback to mock data if API fails
         const basePrice = Math.random() * 30000 + 1000;
         const change = (Math.random() - 0.5) * 100;
@@ -101,7 +107,7 @@ export async function GET() {
 
     return NextResponse.json(indices);
   } catch (error) {
-    console.error('Error fetching market data:', error);
+    console.error('Error fetching market data:', error instanceof Error ? error.message : String(error));
     
     // If API fails, try to return cached data even if expired
     if (cachedData) {

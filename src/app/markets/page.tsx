@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 async function getMarketNews(): Promise<NewsArticle[]> {
   const articles = await scrapeAllSources(
-    newsSources.filter(source => source.category === 'markets')
+    newsSources.filter(source => source.category === 'business')
   );
   return articles;
 }

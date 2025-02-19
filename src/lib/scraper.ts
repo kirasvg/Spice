@@ -1,9 +1,11 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import type { CheerioAPI } from 'cheerio';
 import { NewsSource, NewsArticle } from '@/types/news';
 import { v4 as uuidv4 } from 'uuid';
 
-function extractImage($: cheerio.CheerioAPI, element: cheerio.Element): string | undefined {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function extractImage($: CheerioAPI, element: cheerio.Cheerio<any>): string | undefined {
   // Try to find image in media:content
   const mediaContent = $(element).find('media\\:content, content').first();
   if (mediaContent.length > 0) {
@@ -29,7 +31,7 @@ function extractImage($: cheerio.CheerioAPI, element: cheerio.Element): string |
   return undefined;
 }
 
-export async function scrapeNews(source: NewsSource): Promise<NewsArticle[]> {
+async function scrapeNews(source: NewsSource): Promise<NewsArticle[]> {
   try {
     console.log(`Fetching news from ${source.name}...`);
     
@@ -40,16 +42,21 @@ export async function scrapeNews(source: NewsSource): Promise<NewsArticle[]> {
       timeout: 10000
     });
 
-    const $ = cheerio.load(response.data, { xmlMode: true });
-    const articles: NewsArticle[] = [];
+    const $ = cheerio.load(response.data, {
+      xmlMode: true
+    });
 
+    const articles: NewsArticle[] = [];
+    
     $(source.selector.article).each((_, element) => {
       try {
         const title = $(element).find(source.selector.title).text().trim();
         const description = $(element).find(source.selector.description).text().trim();
         const articleUrl = $(element).find(source.selector.link).text().trim();
         const pubDate = $(element).find(source.selector.date).text().trim();
-        const imageUrl = extractImage($, element);
+        const imageUrl = source.selector.image 
+          ? $(element).find(source.selector.image).attr('url') 
+          : extractImage($, $(element));
 
         if (title && description && articleUrl) {
           articles.push({
@@ -92,3 +99,5 @@ export async function scrapeAllSources(sources: NewsSource[]): Promise<NewsArtic
     return [];
   }
 }
+
+export { scrapeNews };

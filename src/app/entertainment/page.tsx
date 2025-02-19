@@ -3,8 +3,10 @@ import { newsSources } from '@/config/sources';
 import { NewsArticle } from '@/types/news';
 import Image from 'next/image';
 
-async function getNews(): Promise<NewsArticle[]> {
-  const articles = await scrapeAllSources(newsSources);
+async function getEntertainmentNews(): Promise<NewsArticle[]> {
+  const articles = await scrapeAllSources(
+    newsSources.filter(source => source.category === 'entertainment')
+  );
   return articles;
 }
 
@@ -23,8 +25,8 @@ function formatTimestamp(date: Date): string {
   });
 }
 
-export default async function Home() {
-  const articles = await getNews();
+export default async function EntertainmentPage() {
+  const articles = await getEntertainmentNews();
   const mainArticle = articles[0];
   const otherArticles = articles.slice(1);
 

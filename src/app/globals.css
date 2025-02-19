@@ -3,30 +3,86 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fa;
+  --foreground: #1a1a1a;
+  --primary: #FF3366;
+  --secondary: #6C63FF;
+  --accent: #00F5A0;
+  --card-bg: #ffffff;
+  --gradient-1: #FF3366;
+  --gradient-2: #6C63FF;
+  --gradient-3: #00F5A0;
+  --gradient-4: #FFC700;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #13111C;
+    --foreground: #f8f9fa;
+    --primary: #FF4D8D;
+    --secondary: #837DFF;
+    --card-bg: #1E1B2E;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply text-foreground bg-background font-sans antialiased;
+  }
 }
 
+/* Modern Card Styles */
+.news-card {
+  @apply bg-white/80 dark:bg-gray-800/50 rounded-2xl shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden backdrop-blur-sm border border-white/10;
+  background: var(--card-bg);
+}
+
+.news-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px) scale(1.02);
+}
+
+.news-card img {
+  @apply object-cover w-full transition-all duration-500;
+}
+
+.news-card:hover img {
+  transform: scale(1.08);
+}
+
+/* Gradient Text */
+.gradient-text {
+  @apply font-bold;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+  background-size: 200% 200%;
+  animation: gradientText 5s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animated Background */
+.animated-bg {
+  background: linear-gradient(-45deg, var(--gradient-1), var(--gradient-2), var(--gradient-3), var(--gradient-4));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Scroll Animation */
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-scroll-x {
@@ -35,4 +91,96 @@ body {
 
 .animate-scroll-x:hover {
   animation-play-state: paused;
+}
+
+/* Modern Button Styles */
+.btn-primary {
+  @apply px-6 py-3 rounded-full font-medium transition-all duration-300 relative overflow-hidden;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary::after {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+  background: linear-gradient(135deg, var(--gradient-2), var(--gradient-3));
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+/* Glass Effect */
+.glass {
+  @apply backdrop-blur-xl bg-white/10 border border-white/20;
+}
+
+/* Emoji Animation */
+.emoji-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Category Tags */
+.category-tag {
+  @apply px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-tag:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Hover Card Effect */
+.hover-card {
+  @apply relative overflow-hidden rounded-2xl transition-all duration-300;
+}
+
+.hover-card::before {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+}
+
+.hover-card:hover::before {
+  opacity: 0.1;
+}
+
+/* Fun Loading Animation */
+.loading-dots::after {
+  content: '...';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60% { content: '...'; }
+  80%, 100% { content: ''; }
+}
+
+/* Social Icons */
+.social-icon {
+  @apply p-3 rounded-full transition-all duration-300;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+  color: white;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px) rotate(8deg);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
